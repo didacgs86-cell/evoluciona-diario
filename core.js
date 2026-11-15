@@ -2,13 +2,14 @@
 (function(root){
 'use strict';
 const VERSION=1;
+const Gym=typeof module!=='undefined'&&module.exports?require('./gym-core.js'):root.EvoGym;
 const dateKey=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 const parseDate=s=>new Date(`${s}T12:00:00`);
 const validDate=s=>typeof s==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(s)&&!Number.isNaN(+parseDate(s))&&dateKey(parseDate(s))===s&&s>='2000-01-01'&&s<='2100-12-31';
 const validMonth=s=>typeof s==='string'&&/^\d{4}-(0[1-9]|1[0-2])$/.test(s)&&s>='2000-01'&&s<='2100-12';
 const shiftDate=(key,days)=>{const d=parseDate(key);d.setDate(d.getDate()+days);return dateKey(d)};
 const uid=()=>crypto.randomUUID();
-function initial(){return {version:VERSION,habits:[{id:'gym',name:'Gimnasio',area:'Salud',icon:'🏋️',target:3,created:dateKey(),archived:false},{id:'study',name:'Estudio',area:'Estudio',icon:'📚',target:null,created:dateKey(),archived:false},{id:'creatine',name:'Creatina',area:'Suplementos',icon:'💊',target:null,created:dateKey(),archived:false},{id:'protein',name:'Proteína',area:'Suplementos',icon:'🥛',target:null,created:dateKey(),archived:false}],days:{},tasks:[],improvements:[],expenses:[],closings:{},vault:null};}
+function initial(){return {version:VERSION,habits:[{id:'gym',name:'Gimnasio',area:'Salud',icon:'🏋️',target:3,created:dateKey(),archived:false},{id:'study',name:'Estudio',area:'Estudio',icon:'📚',target:null,created:dateKey(),archived:false},{id:'creatine',name:'Creatina',area:'Suplementos',icon:'💊',target:null,created:dateKey(),archived:false},{id:'protein',name:'Proteína',area:'Suplementos',icon:'🥛',target:null,created:dateKey(),archived:false}],days:{},tasks:[],improvements:[],expenses:[],closings:{},vault:null,gym:Gym.empty()};}
 const plain=o=>o!==null&&typeof o==='object'&&!Array.isArray(o)&&(Object.getPrototypeOf(o)===Object.prototype||Object.getPrototypeOf(o)===null);
 const str=(s,max=2000)=>typeof s==='string'&&s.length<=max;
 const money=n=>typeof n==='number'&&Number.isFinite(n)&&n>=0&&n<=100000000;
@@ -24,6 +25,8 @@ function validate(s){
  for(const e of s.expenses)assert(money(e.amount)&&e.amount>0&&validDate(e.date)&&str(e.note,160)&&['planned','chosen','review'].includes(e.kind));
  for(const [month,c]of Object.entries(s.closings))assert(validMonth(month)&&plain(c)&&money(c.saved)&&money(c.invested));
  assert(s.vault===null||plain(s.vault)&&s.vault.v===1&&s.vault.iterations===600000&&[s.vault.salt,s.vault.iv,s.vault.data].every(x=>typeof x==='string'&&/^[A-Za-z0-9+/]+=*$/.test(x))&&s.vault.salt.length===24&&s.vault.iv.length===16&&s.vault.data.length<=12000000);
+ if(s.gym===undefined)s.gym=Gym.empty();
+ Gym.validate(s.gym,validDate);
  return s;
 }
 function monthSummary(s,month){const entries=Object.entries(s.days).filter(([d])=>d.startsWith(month));const moods=entries.map(([,d])=>d.mood).filter(v=>v!==null);return {recorded:entries.filter(([,d])=>Object.keys(d.habits).length||d.mood!==null||d.achievement.trim()).length,achievements:entries.filter(([,d])=>d.achievement.trim()).length,mood:moods.length?Math.round(moods.reduce((a,b)=>a+b,0)/moods.length):null,moodCount:moods.length,gym:entries.filter(([,d])=>d.habits.gym==='done').length};}

@@ -1,1 +1,1 @@
-{"name":"evoluciona-diario","version":"1.0.0","private":true,"description":"Pequeños avances, a tu ritmo. Aplicación estática sin dependencias.","scripts":{"test":"node --test tests/*.test.cjs"}}
+{"name":"evoluciona-diario","version":"1.1.0","private":true,"description":"Pequeños avances, a tu ritmo. Aplicación estática sin dependencias.","scripts":{"test":"node --test tests/*.test.cjs"}}
