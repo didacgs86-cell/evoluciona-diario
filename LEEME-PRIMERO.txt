@@ -1,0 +1,27 @@
+EVOLUCIONA — COMO SUBIRLA A GITHUB EN EL MAC
+
+IMPORTANTE: NO SUBAS ESTE ZIP A GITHUB. Primero descomprímelo.
+GitHub Pages no abre aplicaciones dentro de archivos ZIP.
+
+1. Descarga Evoluciona-lista-para-GitHub.zip.
+2. En Descargas del Finder, haz doble clic sobre el ZIP.
+3. Abre la carpeta recién descomprimida. Debes ver index.html,
+   app.js, core.js, vault.js, styles.css y los demás archivos.
+4. Abre en GitHub tu repositorio evoluciona-diario, pestaña Code.
+5. Pulsa Add file > Upload files.
+6. Arrastra LOS ARCHIVOS DE DENTRO de la carpeta descomprimida.
+   No arrastres el ZIP ni la carpeta contenedora.
+7. Guarda con Commit changes. Si pregunta por README.md, puedes
+   sustituir el README del repositorio por el de este proyecto.
+8. Comprueba en Code que index.html aparece junto a app.js y styles.css.
+   No debe estar dentro de una carpeta.
+9. Settings > Pages ya está configurado como main y /(root).
+   No hace falta cambiarlo.
+10. En Actions, espera a que la nueva publicación tenga un check verde.
+    Después abre: https://didacgs86-cell.github.io/evoluciona-diario/
+
+Para funcionar, deben publicarse juntos todos los archivos del proyecto.
+Tus documentos Word, PowerPoint e imágenes de otros trabajos no son parte
+necesaria de esta app. No se han incluido en este paquete.
+
+Lee README.md para privacidad, copias de seguridad e instrucciones de uso.
